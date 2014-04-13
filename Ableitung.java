@@ -16,7 +16,7 @@ public class Ableitung {
 	 * Leitet eine ganzrationale Funktion ab
 	 * 
 	 * @param p abzuleitende Funktion, Inhalt nach folgendem Muster: [zahl,exp,zahl,exp,...]
-	 * @return gibt die abgeleitete Funktion zur�ck
+	 * @return gibt die abgeleitete Funktion zurück
 	 */
 	public static double[] ableiten(double[] p) {
 		if(p.length > 2){
@@ -34,14 +34,14 @@ public class Ableitung {
 			return new double[]{0};
 	}
 	/**
-	 * Falls die abzuleitende Funktion ln(x) ist, soll 1/x zur�ckgegeben werden
+	 * Falls die abzuleitende Funktion ln(x) ist, soll 1/x zurückgegeben werden
 	 * @return Ableitung von ln(x)
 	 */
 	public static String logAbleit() {
 		return "1/x";
 	}
 	/**
-	 * Wandelt einen String in ein double-Array um, um Ableiten zu erm�glichen.
+	 * Wandelt einen String in ein double-Array um, um Ableiten zu ermöglichen.
 	 * Die Speicherung erfolgt nach Muster [zahl1, exp1, zahl2, exp2, ...]
 	 * @param s Umzuwandelnder String
 	 * @return double-Array des umgewandelten Strings
@@ -128,7 +128,7 @@ public class Ableitung {
 		return ergebnis;
 	}
 	/**
-	 * Verringert ein Array auf die tats�chlich verwendete Gr��e
+	 * Verringert ein Array auf die tatsächlich verwendete Größe
 	 * @param a Zu verringerndes Array
 	 * @return verrtingertes Array
 	 */
