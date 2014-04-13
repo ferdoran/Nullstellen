@@ -19,7 +19,7 @@ public class VPObjectManager {
 				groupIndex++;
 			}
 		}
-		if(variables.size() != potencies.size() || variables.size() != operations.size()){
+		if(variables.size() != potencies.size() || operations.size() != (constants.size() + variables.size())){
 			throw new IllegalArgumentException("function syntax is incorrect!");
 		}
 		for(int i = 0; i <= variables.size()-1; i++){
