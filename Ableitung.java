@@ -1,5 +1,3 @@
-package util;
-
 import java.util.Scanner;
 /**
  * Klasse die ganzrationale Funktionen ableiten kann nach Kettenregel
@@ -18,7 +16,7 @@ public class Ableitung {
 	 * Leitet eine ganzrationale Funktion ab
 	 * 
 	 * @param p abzuleitende Funktion, Inhalt nach folgendem Muster: [zahl,exp,zahl,exp,...]
-	 * @return gibt die abgeleitete Funktion zurück
+	 * @return gibt die abgeleitete Funktion zurï¿½ck
 	 */
 	public static double[] ableiten(double[] p) {
 		if(p.length > 2){
@@ -36,14 +34,14 @@ public class Ableitung {
 			return new double[]{0};
 	}
 	/**
-	 * Falls die abzuleitende Funktion ln(x) ist, soll 1/x zurückgegeben werden
+	 * Falls die abzuleitende Funktion ln(x) ist, soll 1/x zurï¿½ckgegeben werden
 	 * @return Ableitung von ln(x)
 	 */
 	public static String logAbleit() {
 		return "1/x";
 	}
 	/**
-	 * Wandelt einen String in ein double-Array um, um Ableiten zu ermöglichen.
+	 * Wandelt einen String in ein double-Array um, um Ableiten zu ermï¿½glichen.
 	 * Die Speicherung erfolgt nach Muster [zahl1, exp1, zahl2, exp2, ...]
 	 * @param s Umzuwandelnder String
 	 * @return double-Array des umgewandelten Strings
@@ -130,7 +128,7 @@ public class Ableitung {
 		return ergebnis;
 	}
 	/**
-	 * Verringert ein Array auf die tatsächlich verwendete Größe
+	 * Verringert ein Array auf die tatsï¿½chlich verwendete Grï¿½ï¿½e
 	 * @param a Zu verringerndes Array
 	 * @return verrtingertes Array
 	 */
