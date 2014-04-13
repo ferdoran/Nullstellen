@@ -10,7 +10,7 @@ public class RegexScanner{
 
 		// Reihenfolge aka Group Index NICHT ÄNDERN!
 		regexFunction.match("(?<!(['^']))[0-9]+$"); //Konstante am Ende
-		regexFunction.match("[0-9]*[x]"); //Variable inklusive Konstante
+		regexFunction.match("[0-9 || .]*[x]"); //Variable inklusive Konstante
 		regexFunction.match("[+||-]"); //Operationzeichen
 		regexFunction.match("['^'][0-9]+"); //Potenz (nicht negativ)
 		
