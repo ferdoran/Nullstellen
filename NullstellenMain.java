@@ -9,8 +9,7 @@ public class NullstellenMain {
 
 	public static void main(String[] args) {
 		//Funktion einlesen
-		Function function = new Function();
-		String functionString = function.readFunctionFromStdin();
+		String functionString = Function.readFunctionFromStdin();
 		
 		//Funktion => Scanner
 		RegexScanner scanner = new RegexScanner();
@@ -43,9 +42,9 @@ public class NullstellenMain {
 		
 		//Ableitung erstellen
 		for(VPObject vpo : vpobjects){
-			function.calculateDerivation(vpo);
+			Function.calculateDerivation(vpo);
 		}
-		String diff = function.derivationFunction(vpobjects, operations);
+		String diff = Function.derivationFunction(vpobjects, operations);
 		
 		//CleanUp
 		vpobjects = null;
