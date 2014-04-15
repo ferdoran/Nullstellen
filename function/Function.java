@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import parser.VPObject;
+import parser.VPObjectManager;
+import scanner.RegexScanner;
 
 public class Function {
 	
@@ -15,12 +17,42 @@ public class Function {
 		return function;
 	}
 	
-	public static String derivationFunction(ArrayList<VPObject> vpobjects, ArrayList<String> operations){
-		String diff = "";
-		for(VPObject vpo : vpobjects){
-			diff += operations.get(vpobjects.indexOf(vpo)) + vpo.variableDiff() + "x" + "^" + vpo.potencyDiff();
+	public static String derivationFunction(String function){
+		String derivationFunction = "";
+		//Funktion => Scanner
+		RegexScanner scanner = new RegexScanner();
+		ArrayList<String> matches = null;
+		try{
+			matches = scanner.matchFunction(function);
 		}
-		return diff;
+		catch(IllegalArgumentException e){
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+		finally{
+			scanner = null;	
+		}
+		
+		//Scanner matches => VPObject + Operationen
+		VPObjectManager vpManager = null;
+		try{
+			vpManager = new VPObjectManager(matches);
+		}
+		catch(IllegalArgumentException e){
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+		matches = null;
+		
+		ArrayList<String> operations = vpManager.operations();
+		ArrayList<VPObject> vpobjects = vpManager.vpobjects();
+		
+		for(VPObject vpo : vpobjects){
+			Function.calculateDerivation(vpo);
+			derivationFunction += operations.get(vpobjects.indexOf(vpo)) + vpo.variableDiff() + "x" + "^" + vpo.potencyDiff();
+		}
+		
+		return derivationFunction;
 	}
 	
 	public static void calculateDerivation(VPObject vpobject){
