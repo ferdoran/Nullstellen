@@ -3,7 +3,7 @@ package parser;
 import java.util.ArrayList;
 
 public class VPObjectManager {
-	private ArrayList<String> constants = new ArrayList<>();
+	private String constants = "0";
 	private ArrayList<String> variables = new ArrayList<>();
 	private ArrayList<String> potencies = new ArrayList<>();
 	private ArrayList<String> operations = new ArrayList<>();
@@ -19,7 +19,7 @@ public class VPObjectManager {
 				groupIndex++;
 			}
 		}
-		if(variables.size() != potencies.size() || operations.size() != (constants.size() + variables.size())){
+		if(variables.size() != potencies.size() || operations.size() != (variables.size() + 1)){ //variables + constants
 			throw new IllegalArgumentException("function syntax is incorrect!");
 		}
 		for(int i = 0; i <= variables.size()-1; i++){
@@ -27,8 +27,13 @@ public class VPObjectManager {
 		}
 		cleanUp();
 	}
+
+	private void cleanUp() {
+		variables = null;
+		potencies = null;
+	}
 	
-	public VPObject buildVPObject(String variable, String potency) throws IllegalArgumentException{
+	private VPObject buildVPObject(String variable, String potency) throws IllegalArgumentException{
 		if(variable.length() == 1){//min. length == 2, da Konstante + x übergeben werden
 			throw new IllegalArgumentException("function syntax is incorrect!");
 		}
@@ -52,10 +57,10 @@ public class VPObjectManager {
 				   2. Operationzeichen
 				   3. Potenz (nicht negativ)
 	*/	
-	public void splitMatches(String match, int groupIndex){
+	private void splitMatches(String match, int groupIndex){
 		switch(groupIndex){
 			case 0:{
-				constants.add(match);
+				constants = match;
 				break;
 			}
 			case 1:{
@@ -73,13 +78,8 @@ public class VPObjectManager {
 		}
 	}
 	
-	public void cleanUp(){
-		variables = null;
-		potencies = null;
-		if(constants.size() > 1){
-			operations.remove(operations.size()-1); //Operationszeichen mit dem die Konstante am Ende verbunden war, wird nicht mehr benötigt
-			constants = null;
-		}
+	public String constants() {
+		return constants;
 	}
 	
 	public ArrayList<String> operations(){

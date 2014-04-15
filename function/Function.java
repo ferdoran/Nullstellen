@@ -10,6 +10,8 @@ import scanner.RegexScanner;
 
 public class Function {
 	
+	private static VPObjectManager vpoManager;
+	
 	public static String readFunctionFromStdin(){
 		Scanner in = new Scanner(System.in);
 		String function = in.next();
@@ -17,41 +19,33 @@ public class Function {
 		return function;
 	}
 	
-	public static String derivation(String function){
-		String derivationFunction = "";
-		//Funktion => Scanner
-		RegexScanner scanner = new RegexScanner();
-		ArrayList<String> matches = null;
-		try{
-			matches = scanner.matchFunction(function);
-		}
-		catch(IllegalArgumentException e){
-			System.out.println(e.getMessage());
-			System.exit(1);
-		}
+	public static String derivation(String function) throws IllegalArgumentException{
+		String derivation = "";
 		
-		//Scanner matches => VPObject + Operationen
-		VPObjectManager vpManager = null;
-		try{
-			vpManager = new VPObjectManager(matches);
-		}
-		catch(IllegalArgumentException e){
-			System.out.println(e.getMessage());
-			System.exit(1);
-		}
+		parseComponents(function);
 		
-		ArrayList<String> operations = vpManager.operations();
-		ArrayList<VPObject> vpobjects = vpManager.vpobjects();
+		ArrayList<String> operations = vpoManager.operations();
+		ArrayList<VPObject> vpobjects = vpoManager.vpobjects();
 		
 		for(VPObject vpo : vpobjects){
 			Function.calculateDerivation(vpo);
-			derivationFunction += operations.get(vpobjects.indexOf(vpo)) + vpo.variableDiff() + "x" + "^" + vpo.potencyDiff();
+			derivation += operations.get(vpobjects.indexOf(vpo)) + vpo.variableDiff() + "x" + "^" + vpo.potencyDiff();
 		}
 		
-		return derivationFunction;
+		return derivation;
+	}
+
+	private static void parseComponents(String function) throws IllegalArgumentException{
+		//Funktion => Scanner
+		RegexScanner scanner = new RegexScanner();
+		ArrayList<String> matches = null;
+		matches = scanner.matchFunction(function);
+		
+		//Scanner matches => VPObject + Operationen
+		vpoManager = new VPObjectManager(matches);
 	}
 	
-	public static void calculateDerivation(VPObject vpobject){
+	private static void calculateDerivation(VPObject vpobject){
 		double variable = Double.parseDouble(vpobject.variable());
 		int potency = Integer.parseInt(vpobject.potency());
 		double variableDiff = variable * potency;
@@ -61,7 +55,15 @@ public class Function {
 	}
 	
 	public static double functionValue(String function, double x){
-		return 0.0; //Todo!
+		double functionValue = 0.0;
+		if(vpoManager == null){
+			parseComponents(function);
+		}
+		for(VPObject vpo : vpoManager.vpobjects()){
+			functionValue += Double.parseDouble(vpo.variable()) * Math.pow(x, Double.parseDouble(vpo.potency()));
+		}
+		functionValue += Double.parseDouble(vpoManager.constants());
+		return functionValue;
 	}
 
 }
