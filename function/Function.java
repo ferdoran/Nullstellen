@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import parser.VPObject;
-import parser.VPObjectManager;
+import parser.ComponentsManager;
 import scanner.RegexScanner;
 
 public class Function {
 	
-	private static VPObjectManager vpoManager;
+	private static ComponentsManager componentsManager;
 	
 	public static String readFunctionFromStdin(){
 		Scanner in = new Scanner(System.in);
@@ -24,12 +24,12 @@ public class Function {
 		
 		parseComponents(function);
 		
-		ArrayList<String> operations = vpoManager.operations();
-		ArrayList<VPObject> vpobjects = vpoManager.vpobjects();
+		ArrayList<String> operations = componentsManager.operations();
+		ArrayList<VPObject> vpobjects = componentsManager.vpobjects();
 		
 		for(VPObject vpo : vpobjects){
 			Function.calculateDerivation(vpo);
-			derivation += operations.get(vpobjects.indexOf(vpo)) + vpo.variableDiff() + "x" + "^" + vpo.potencyDiff();
+			derivation += operations.get(vpobjects.indexOf(vpo)) + vpo.derivationVariable() + "x" + "^" + vpo.derivationPotency();
 		}
 		
 		return derivation;
@@ -39,10 +39,10 @@ public class Function {
 		//Funktion => Scanner
 		RegexScanner scanner = new RegexScanner();
 		ArrayList<String> matches = null;
-		matches = scanner.matchFunction(function);
+		matches = scanner.matchComponents(function);
 		
 		//Scanner matches => VPObject + Operationen
-		vpoManager = new VPObjectManager(matches);
+		componentsManager = new ComponentsManager(matches);
 	}
 	
 	private static void calculateDerivation(VPObject vpobject){
@@ -50,19 +50,24 @@ public class Function {
 		int potency = Integer.parseInt(vpobject.potency());
 		double variableDiff = variable * potency;
 		int potencyDiff =  potency - 1;
-		vpobject.setVariableDiff(String.valueOf(variableDiff));
-		vpobject.setPotencyDiff(String.valueOf(potencyDiff));
+		vpobject.setDerivationVariable(String.valueOf(variableDiff));
+		vpobject.setDerivationPotency(String.valueOf(potencyDiff));
 	}
 	
-	public static double functionValue(String function, double x){
+	public static double functionValue(String function, double x) throws IllegalArgumentException{
 		double functionValue = 0.0;
-		if(vpoManager == null){
+		if(componentsManager == null){
 			parseComponents(function);
 		}
-		for(VPObject vpo : vpoManager.vpobjects()){
-			functionValue += Double.parseDouble(vpo.variable()) * Math.pow(x, Double.parseDouble(vpo.potency()));
+		for(VPObject vpo : componentsManager.vpobjects()){
+			if(componentsManager.operations().get(componentsManager.vpobjects().indexOf(vpo)).equals("+")){
+				functionValue += Double.parseDouble(vpo.variable()) * Math.pow(x, Double.parseDouble(vpo.potency()));	
+			}
+			else{
+				functionValue -= Double.parseDouble(vpo.variable()) * Math.pow(x, Double.parseDouble(vpo.potency()));
+			}
 		}
-		functionValue += Double.parseDouble(vpoManager.constants());
+		functionValue += Double.parseDouble(componentsManager.constants());
 		return functionValue;
 	}
 

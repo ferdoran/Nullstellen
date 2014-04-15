@@ -4,3 +4,5 @@
 /RegexMatch.class
 /RegexScanner.class
 /RegexTokens.class
+/RegexTokenBuilder.class
+/RegexMatchBuilder.class
