@@ -29,9 +29,6 @@ public class Function {
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		finally{
-			scanner = null;	
-		}
 		
 		//Scanner matches => VPObject + Operationen
 		VPObjectManager vpManager = null;
@@ -42,7 +39,6 @@ public class Function {
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		matches = null;
 		
 		ArrayList<String> operations = vpManager.operations();
 		ArrayList<VPObject> vpobjects = vpManager.vpobjects();
