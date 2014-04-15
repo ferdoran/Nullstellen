@@ -51,7 +51,7 @@ public class NullstellenMain {
 		vpobjects = null;
 		operations = null;
 		
-		System.out.println(function);
+		System.out.println(functionString);
 		System.out.println(diff);
 	}
 

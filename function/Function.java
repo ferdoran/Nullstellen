@@ -1,3 +1,4 @@
+
 package function;
 
 import java.util.ArrayList;	
@@ -32,9 +33,6 @@ public class Function {
 	}
 	
 	public static double functionValue(String function, double x){
-		
-		
-		
 		return 0.0; //Todo!
 	}
 
