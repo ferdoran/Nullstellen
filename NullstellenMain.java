@@ -4,7 +4,7 @@ public class NullstellenMain {
 
 	public static void main(String[] args) {
 		String f = Function.readFunctionFromStdin();
-		f = Function.derivationFunction(f);
+		f = Function.derivation(f);
 		System.out.println(f);
 	}
 

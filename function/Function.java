@@ -17,7 +17,7 @@ public class Function {
 		return function;
 	}
 	
-	public static String derivationFunction(String function){
+	public static String derivation(String function){
 		String derivationFunction = "";
 		//Funktion => Scanner
 		RegexScanner scanner = new RegexScanner();
