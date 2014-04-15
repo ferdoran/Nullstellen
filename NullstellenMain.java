@@ -3,21 +3,20 @@ import java.util.ArrayList;
 import scanner.RegexScanner;
 import parser.VPObject;
 import parser.VPObjectManager;
-import diff.DiffCalculator;
-import function.FunctionBuilder;
+import function.Function;
 
 public class NullstellenMain {
 
 	public static void main(String[] args) {
 		//Funktion einlesen
-		FunctionBuilder functionBuilder = new FunctionBuilder();
-		String function = functionBuilder.readFunctionFromStdin();
+		Function function = new Function();
+		String functionString = function.readFunctionFromStdin();
 		
 		//Funktion => Scanner
 		RegexScanner scanner = new RegexScanner();
 		ArrayList<String> matches = null;
 		try{
-			matches = scanner.matchFunction(function);
+			matches = scanner.matchFunction(functionString);
 		}
 		catch(IllegalArgumentException e){
 			System.out.println(e.getMessage());
@@ -43,11 +42,10 @@ public class NullstellenMain {
 		ArrayList<VPObject> vpobjects = vpManager.vpobjects();
 		
 		//Ableitung erstellen
-		DiffCalculator diffCalculator = new DiffCalculator();
 		for(VPObject vpo : vpobjects){
-			diffCalculator.calculateDiff(vpo);
+			function.calculateDerivation(vpo);
 		}
-		String diff = functionBuilder.buildDiffFunction(vpobjects, operations);
+		String diff = function.derivationFunction(vpobjects, operations);
 		
 		//CleanUp
 		vpobjects = null;
