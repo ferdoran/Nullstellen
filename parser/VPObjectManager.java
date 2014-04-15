@@ -3,7 +3,7 @@ package parser;
 import java.util.ArrayList;
 
 public class VPObjectManager {
-	private String constants = "0";
+	private String constant = "0";
 	private ArrayList<String> variables = new ArrayList<>();
 	private ArrayList<String> potencies = new ArrayList<>();
 	private ArrayList<String> operations = new ArrayList<>();
@@ -19,7 +19,7 @@ public class VPObjectManager {
 				groupIndex++;
 			}
 		}
-		if(variables.size() != potencies.size() || operations.size() != (variables.size() + 1)){ //variables + constants
+		if(variables.size() != potencies.size() || operations.size() != (variables.size() + 1)){ // variables.size() + 1, da variables + constant
 			throw new IllegalArgumentException("function syntax is incorrect!");
 		}
 		for(int i = 0; i <= variables.size()-1; i++){
@@ -60,7 +60,7 @@ public class VPObjectManager {
 	private void splitMatches(String match, int groupIndex){
 		switch(groupIndex){
 			case 0:{
-				constants = match;
+				constant = match;
 				break;
 			}
 			case 1:{
@@ -79,7 +79,7 @@ public class VPObjectManager {
 	}
 	
 	public String constants() {
-		return constants;
+		return constant;
 	}
 	
 	public ArrayList<String> operations(){
