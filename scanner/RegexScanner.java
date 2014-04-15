@@ -12,7 +12,7 @@ public class RegexScanner{
 		regexFunction.match("(?<!(['^']))[0-9]+$"); //Konstante am Ende
 		regexFunction.match("[0-9 || .]*[x]"); //Variable inklusive Konstante
 		regexFunction.match("[+||-]"); //Operationzeichen
-		regexFunction.match("['^'][0-9]+"); //Potenz (nicht negativ)
+		regexFunction.match("['^'][1-9]+"); //Potenz (nicht negativ)
 		
 		if(!regexFunction.matchString().equals("")){
 			throw new IllegalArgumentException("function cannot be parsed");
