@@ -32,7 +32,7 @@ public class Function {
 	}
 	
 	public double functionValue(String function, double x){
-		return 0.0; //Test
+		return 0.0;
 	}
 
 }
