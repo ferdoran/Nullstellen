@@ -59,8 +59,10 @@ public class Function {
 		if(componentsManager == null){
 			parseComponents(function);
 		}
+		int index = 0;
 		for(VPObject vpo : componentsManager.vpobjects()){
-			if(componentsManager.operations().get(componentsManager.vpobjects().indexOf(vpo)).equals("+")){
+			index = componentsManager.vpobjects().indexOf(vpo);
+			if(componentsManager.operations().get(index).equals("+")){
 				functionValue += Double.parseDouble(vpo.variable()) * Math.pow(x, Double.parseDouble(vpo.potency()));	
 			}
 			else{
