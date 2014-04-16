@@ -35,7 +35,7 @@ public class Function {
 		return derivation;
 	}
 
-	private static void parseComponents(String function) throws IllegalArgumentException{
+	public static void parseComponents(String function) throws IllegalArgumentException{
 		//Funktion => Scanner
 		RegexScanner scanner = new RegexScanner();
 		ArrayList<String> matches = null;
@@ -57,7 +57,7 @@ public class Function {
 	public static double functionValue(String function, double x) throws IllegalArgumentException{
 		double functionValue = 0.0;
 		if(componentsManager == null){
-			parseComponents(function);
+			throw new IllegalArgumentException("Function has yet not been parsed");
 		}
 		int index = 0;
 		for(VPObject vpo : componentsManager.vpobjects()){
