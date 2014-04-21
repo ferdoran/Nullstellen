@@ -30,7 +30,7 @@ public class ComponentsManager {
 			}
 		}
 		if(operations.size() < (variables.size() + 1)){ // variables.size() + 1, da variables + constant
-			operations.add("+"); //nur das vorderste plus kann fehlen
+			operations.add(0, "+");
 		}
 		else if(operations.size() > (variables.size() + 1)){
 			throw new IllegalArgumentException("Too many operations!");
