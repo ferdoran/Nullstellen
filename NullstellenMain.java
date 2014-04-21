@@ -5,6 +5,11 @@ public class NullstellenMain {
 	public static void main(String[] args) {
 		Function function = null;
 		try{
+			/*
+			 * z.B. x^2+2x
+			 * 		2x-1
+			 * 		+3x
+			 */
 			function = new Function(Function.readFunctionFromStdin());
 		}
 		catch(IllegalArgumentException e){
