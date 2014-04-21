@@ -67,7 +67,7 @@ public class Function {
 			derivation = splits[0];
 		}
 		
-		splits = derivation.split("['^']+[1]");
+		splits = derivation.split("[x]+['^']+[1](?![0-9])");
 		String temp = "";
 		for(int i = 0; i < splits.length; i++){
 			temp += splits[i];
