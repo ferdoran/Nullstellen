@@ -3,7 +3,7 @@ package parser;
 import java.util.ArrayList;
 
 public class ComponentsManager {
-	private String constant = "0";
+	private String constant = "";
 	private ArrayList<String> variables = new ArrayList<>();
 	private ArrayList<String> potencies = new ArrayList<>();
 	private ArrayList<String> operations = new ArrayList<>();
@@ -19,8 +19,12 @@ public class ComponentsManager {
 				groupIndex++;
 			}
 		}
+		if(constant.equals("")){
+			operations.add("+");
+			constant = "0";
+		}
 		if(variables.size() != potencies.size() || operations.size() != (variables.size() + 1)){ // variables.size() + 1, da variables + constant
-			throw new IllegalArgumentException("function syntax is incorrect!");
+			throw new IllegalArgumentException("Parser: Missing potency or operation!");
 		}
 		for(int i = 0; i <= variables.size()-1; i++){
 			vpobjects.add(buildVPObject(variables.get(i), potencies.get(i)));
@@ -33,10 +37,7 @@ public class ComponentsManager {
 		potencies = null;
 	}
 	
-	private VPObject buildVPObject(String variable, String potency) throws IllegalArgumentException{
-		if(variable.length() == 1){//min. length == 2, da Konstante + x übergeben werden
-			throw new IllegalArgumentException("function syntax is incorrect!");
-		}
+	private VPObject buildVPObject(String variable, String potency){
 		String variableArray[] = variable.split("[x]");
 		String variableCleared = "";
 		for (String temp : variableArray){
