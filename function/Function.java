@@ -103,9 +103,9 @@ public class Function {
 		return derivationVP;
 	}
 	
-	  @Override
-	  public String toString()
-	  {
-		  return function;
-	  }
+	@Override
+	public String toString()
+	{
+		return function;
+	}
 }

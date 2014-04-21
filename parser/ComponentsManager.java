@@ -47,6 +47,9 @@ public class ComponentsManager {
 	}
 	
 	private VPObject buildVPObject(String variable, String potency){
+		if(variable.length() == 1){
+			variable = "1"+variable;
+		}
 		String variableArray[] = variable.split("[x]");
 		String variableCleared = "";
 		for (String temp : variableArray){
