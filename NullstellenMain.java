@@ -3,17 +3,17 @@ import function.Function;
 public class NullstellenMain {
 
 	public static void main(String[] args) {
-		String f = Function.readFunctionFromStdin();
+		Function function = null;
 		try{
-			Function.parseComponents(f);
-			System.out.println(Function.functionValue(f, 2));
+			function = new Function(Function.readFunctionFromStdin());
+			System.out.println(function.value(2));
 		}
 		catch(IllegalArgumentException e){
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		f = Function.derivation(f);
-		System.out.println(f);
+		Function f = function.derivation();
+		System.out.println(f.value(2));
 	}
 
 }

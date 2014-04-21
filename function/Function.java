@@ -10,7 +10,17 @@ import scanner.RegexScanner;
 
 public class Function {
 	
-	private static ComponentsManager componentsManager;
+	private ComponentsManager componentsManager;
+	private String function;
+	
+	public Function(){
+		throw new IllegalArgumentException("No function provieded!");
+	}
+	
+	public Function(String function) throws IllegalArgumentException{
+		this.function = function;
+		parseComponents(this.function);
+	}
 	
 	public static String readFunctionFromStdin(){
 		Scanner in = new Scanner(System.in);
@@ -19,46 +29,8 @@ public class Function {
 		return function;
 	}
 	
-	public static String derivation(String function) throws IllegalArgumentException{
-		String derivation = "";
-		
-		parseComponents(function);
-		
-		ArrayList<String> operations = componentsManager.operations();
-		ArrayList<VPObject> vpobjects = componentsManager.vpobjects();
-		
-		for(VPObject vpo : vpobjects){
-			Function.calculateDerivation(vpo);
-			derivation += operations.get(vpobjects.indexOf(vpo)) + vpo.derivationVariable() + "x" + "^" + vpo.derivationPotency();
-		}
-		
-		return derivation;
-	}
-
-	public static void parseComponents(String function) throws IllegalArgumentException{
-		//Funktion => Scanner
-		RegexScanner scanner = new RegexScanner();
-		ArrayList<String> matches = null;
-		matches = scanner.matchComponents(function);
-		
-		//Scanner matches => VPObject + Operationen
-		componentsManager = new ComponentsManager(matches);
-	}
-	
-	private static void calculateDerivation(VPObject vpobject){
-		double variable = Double.parseDouble(vpobject.variable());
-		int potency = Integer.parseInt(vpobject.potency());
-		double variableDiff = variable * potency;
-		int potencyDiff =  potency - 1;
-		vpobject.setDerivationVariable(String.valueOf(variableDiff));
-		vpobject.setDerivationPotency(String.valueOf(potencyDiff));
-	}
-	
-	public static double functionValue(String function, double x) throws IllegalArgumentException{
+	public double value(double x){
 		double functionValue = 0.0;
-		if(componentsManager == null){
-			throw new IllegalArgumentException("Function has yet not been parsed");
-		}
 		int index = 0;
 		for(VPObject vpo : componentsManager.vpobjects()){
 			index = componentsManager.vpobjects().indexOf(vpo);
@@ -69,8 +41,51 @@ public class Function {
 				functionValue -= Double.parseDouble(vpo.variable()) * Math.pow(x, Double.parseDouble(vpo.potency()));
 			}
 		}
-		functionValue += Double.parseDouble(componentsManager.constants());
+		String lastOperation = componentsManager.operations().get(componentsManager.operations().size()-1);
+		if(lastOperation.equals("+")){
+			functionValue += Double.parseDouble(componentsManager.constants());
+		}
+		else{
+			functionValue -= Double.parseDouble(componentsManager.constants());
+		}
 		return functionValue;
 	}
+	
+	public Function derivation(){
+		String derivation = "";
+		
+		ArrayList<String> operations = componentsManager.operations();
+		ArrayList<VPObject> vpobjects = componentsManager.vpobjects();
+		
+		for(VPObject vpo : vpobjects){
+			calculateDerivation(vpo);
+			derivation += operations.get(vpobjects.indexOf(vpo)) + vpo.derivationVariable() + "x" + "^" + vpo.derivationPotency();
+		}
+		
+		String[] splits = derivation.split("[x]+['^']+[0]");
+		if(splits.length == 1){
+			derivation = splits[0];
+		}
+		
+		return new Function(derivation);
+	}
 
+	private void parseComponents(String function) throws IllegalArgumentException{
+		//Funktion => Scanner
+		RegexScanner scanner = new RegexScanner();
+		ArrayList<String> matches = null;
+		matches = scanner.matchComponents(function);
+		
+		//Scanner matches => VPObject + Operationen
+		componentsManager = new ComponentsManager(matches);
+	}
+	
+	private void calculateDerivation(VPObject vpobject){
+		double variable = Double.parseDouble(vpobject.variable());
+		int potency = Integer.parseInt(vpobject.potency());
+		double variableDiff = variable * potency;
+		int potencyDiff =  potency - 1;
+		vpobject.setDerivationVariable(String.valueOf(variableDiff));
+		vpobject.setDerivationPotency(String.valueOf(potencyDiff));
+	}
 }
