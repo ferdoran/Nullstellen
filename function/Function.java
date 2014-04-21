@@ -75,7 +75,7 @@ public class Function {
 		derivation = temp;
 		
 		if(derivation.equals("")){
-			derivation = "+0";
+			derivation = "0";
 		}
 		
 		return new Function(derivation);
