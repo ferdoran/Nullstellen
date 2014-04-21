@@ -23,8 +23,17 @@ public class ComponentsManager {
 			operations.add("+");
 			constant = "0";
 		}
-		if(variables.size() != potencies.size() || operations.size() != (variables.size() + 1)){ // variables.size() + 1, da variables + constant
-			throw new IllegalArgumentException("Parser: Missing potency or operation!");
+		if(variables.size() >= potencies.size()){
+			int sizeDiff = variables.size() - potencies.size();
+			for(int i = 0; i < sizeDiff; i++){
+				potencies.add("^1");
+			}
+		}
+		if(operations.size() < (variables.size() + 1)){ // variables.size() + 1, da variables + constant
+			operations.add("+"); //nur das vorderste plus kann fehlen
+		}
+		else if(operations.size() > (variables.size() + 1)){
+			throw new IllegalArgumentException("Too many operations!");
 		}
 		for(int i = 0; i <= variables.size()-1; i++){
 			vpobjects.add(buildVPObject(variables.get(i), potencies.get(i)));

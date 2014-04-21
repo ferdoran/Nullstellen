@@ -17,7 +17,7 @@ public class Function {
 		throw new IllegalArgumentException("No function provieded!");
 	}
 	
-	public Function(String function) throws IllegalArgumentException{
+	public Function(String function){
 		this.function = function;
 		parseComponents(this.function);
 	}
@@ -58,8 +58,8 @@ public class Function {
 		ArrayList<VPObject> vpobjects = componentsManager.vpobjects();
 		
 		for(VPObject vpo : vpobjects){
-			calculateDerivation(vpo);
-			derivation += operations.get(vpobjects.indexOf(vpo)) + vpo.derivationVariable() + "x" + "^" + vpo.derivationPotency();
+			String[] derivationVP = calculateDerivation(vpo);
+			derivation += operations.get(vpobjects.indexOf(vpo)) + derivationVP[0] + "x" + "^" + derivationVP[1];
 		}
 		
 		String[] splits = derivation.split("[x]+['^']+[0]");
@@ -67,10 +67,21 @@ public class Function {
 			derivation = splits[0];
 		}
 		
+		splits = derivation.split("['^']+[1]");
+		String temp = "";
+		for(int i = 0; i < splits.length; i++){
+			temp += splits[i];
+		}
+		derivation = temp;
+		
+		if(derivation.equals("")){
+			derivation = "+0";
+		}
+		
 		return new Function(derivation);
 	}
 
-	private void parseComponents(String function) throws IllegalArgumentException{
+	private void parseComponents(String function){
 		//Funktion => Scanner
 		RegexScanner scanner = new RegexScanner();
 		ArrayList<String> matches = null;
@@ -80,12 +91,21 @@ public class Function {
 		componentsManager = new ComponentsManager(matches);
 	}
 	
-	private void calculateDerivation(VPObject vpobject){
+	private String[] calculateDerivation(VPObject vpobject){
+		String[] derivationVP = new String[2];
 		double variable = Double.parseDouble(vpobject.variable());
 		int potency = Integer.parseInt(vpobject.potency());
 		double variableDiff = variable * potency;
 		int potencyDiff =  potency - 1;
-		vpobject.setDerivationVariable(String.valueOf(variableDiff));
-		vpobject.setDerivationPotency(String.valueOf(potencyDiff));
+		derivationVP[0] = String.valueOf(variableDiff);
+		derivationVP[1] = String.valueOf(potencyDiff);
+		
+		return derivationVP;
 	}
+	
+	  @Override
+	  public String toString()
+	  {
+		  return function;
+	  }
 }
