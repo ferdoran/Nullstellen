@@ -109,7 +109,7 @@ public class Function {
 		return function;
 	}
 	
-	public Componentsmanager getComponentsManager() {
+	public ComponentsManager getComponentsManager() {
 		return componentsManager;
 	}
 }
