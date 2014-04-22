@@ -1,4 +1,5 @@
 import function.Function;
+import newton.Newton;
 
 public class NullstellenMain {
 
@@ -22,6 +23,8 @@ public class NullstellenMain {
 		Function derivation = function.derivation();
 		System.out.println(derivation.toString());
 		System.out.println(derivation.value(2));
+		Newton newton = new Newton(function);
+		System.out.println(newton.findAllRoots());
 	}
 
 }

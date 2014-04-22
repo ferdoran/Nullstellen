@@ -62,7 +62,7 @@ public class Function {
 			derivation += operations.get(vpobjects.indexOf(vpo)) + derivationVP[0] + "x" + "^" + derivationVP[1];
 		}
 		
-		String[] splits = derivation.split("[x]+['^']+[0]");
+		String[] splits = derivation.split("x\\^0");
 		if(splits.length == 1){
 			derivation = splits[0];
 		}
