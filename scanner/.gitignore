@@ -4,5 +4,8 @@
 /RegexMatch.class
 /RegexScanner.class
 /RegexTokens.class
+<<<<<<< HEAD
 /RegexTokenBuilder.class
+=======
+>>>>>>> Newton
 /RegexMatchBuilder.class
