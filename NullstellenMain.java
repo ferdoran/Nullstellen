@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 import scanner.RegexScanner;
 import parser.VPObject;
-import parser.VPObjectManager;
+import parser.ComponentsManager;
 import function.Function;
 
 public class NullstellenMain {
@@ -27,9 +27,9 @@ public class NullstellenMain {
 		}
 		
 		//Scanner matches => VPObject + Operationen
-		VPObjectManager vpManager = null;
+		ComponentsManager vpManager = null;
 		try{
-			vpManager = new VPObjectManager(matches);
+			vpManager = new ComponentsManager(matches);
 		}
 		catch(IllegalArgumentException e){
 			System.out.println(e.getMessage());

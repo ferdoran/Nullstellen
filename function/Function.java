@@ -108,4 +108,8 @@ public class Function {
 	{
 		return function;
 	}
+	
+	public Componentsmanager getComponentsManager() {
+		return componentsManager;
+	}
 }

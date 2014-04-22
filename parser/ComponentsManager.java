@@ -2,14 +2,14 @@ package parser;
 
 import java.util.ArrayList;
 
-public class VPObjectManager {
-	private ArrayList<String> constants = new ArrayList<>();
+public class ComponentsManager {
+	private String constant = "";
 	private ArrayList<String> variables = new ArrayList<>();
 	private ArrayList<String> potencies = new ArrayList<>();
 	private ArrayList<String> operations = new ArrayList<>();
 	private ArrayList<VPObject> vpobjects = new ArrayList<>();
 	
-	public VPObjectManager(ArrayList<String> matches) throws IllegalArgumentException{
+	public ComponentsManager(ArrayList<String> matches) throws IllegalArgumentException{
 		int groupIndex = 0;
 		for(int i = 0; i < matches.size(); i++){
 			if(!matches.get(i).equals("\0")){
@@ -19,18 +19,36 @@ public class VPObjectManager {
 				groupIndex++;
 			}
 		}
-		if(variables.size() != potencies.size() || operations.size() != (constants.size() + variables.size())){
-			throw new IllegalArgumentException("function syntax is incorrect!");
+		if(constant.equals("")){
+			operations.add("+");
+			constant = "0";
+		}
+		if(variables.size() >= potencies.size()){
+			int sizeDiff = variables.size() - potencies.size();
+			for(int i = 0; i < sizeDiff; i++){
+				potencies.add("^1");
+			}
+		}
+		if(operations.size() < (variables.size() + 1)){ // variables.size() + 1, da variables + constant
+			operations.add(0, "+");
+		}
+		else if(operations.size() > (variables.size() + 1)){
+			throw new IllegalArgumentException("Too many operations!");
 		}
 		for(int i = 0; i <= variables.size()-1; i++){
 			vpobjects.add(buildVPObject(variables.get(i), potencies.get(i)));
 		}
 		cleanUp();
 	}
+
+	private void cleanUp() {
+		variables = null;
+		potencies = null;
+	}
 	
-	public VPObject buildVPObject(String variable, String potency) throws IllegalArgumentException{
-		if(variable.length() == 1){//min. length == 2, da Konstante + x übergeben werden
-			throw new IllegalArgumentException("function syntax is incorrect!");
+	private VPObject buildVPObject(String variable, String potency){
+		if(variable.length() == 1){
+			variable = "1"+variable;
 		}
 		String variableArray[] = variable.split("[x]");
 		String variableCleared = "";
@@ -43,8 +61,8 @@ public class VPObjectManager {
 		for (String temp : potencyArray){
 			potencyCleared += temp;
 		}
-		VPObject cpo = new VPObject(variableCleared,potencyCleared);
-		return cpo;
+		VPObject vpo = new VPObject(variableCleared,potencyCleared);
+		return vpo;
 	}
 	
 	/*Group Index: 0. Konstante am Ende
@@ -52,10 +70,10 @@ public class VPObjectManager {
 				   2. Operationzeichen
 				   3. Potenz (nicht negativ)
 	*/	
-	public void splitMatches(String match, int groupIndex){
+	private void splitMatches(String match, int groupIndex){
 		switch(groupIndex){
 			case 0:{
-				constants.add(match);
+				constant = match;
 				break;
 			}
 			case 1:{
@@ -73,13 +91,8 @@ public class VPObjectManager {
 		}
 	}
 	
-	public void cleanUp(){
-		variables = null;
-		potencies = null;
-		if(constants.size() > 1){
-			operations.remove(operations.size()-1); //Operationszeichen mit dem die Konstante am Ende verbunden war, wird nicht mehr benötigt
-			constants = null;
-		}
+	public String constants() {
+		return constant;
 	}
 	
 	public ArrayList<String> operations(){
