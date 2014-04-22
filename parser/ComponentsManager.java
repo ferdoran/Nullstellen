@@ -50,18 +50,10 @@ public class ComponentsManager {
 		if(variable.length() == 1){
 			variable = "1"+variable;
 		}
-		String variableArray[] = variable.split("[x]");
-		String variableCleared = "";
-		for (String temp : variableArray){
-			variableCleared += temp;
-		}
-		
-		String potencyArray[] = potency.split("['^']");
-		String potencyCleared = "";
-		for (String temp : potencyArray){
-			potencyCleared += temp;
-		}
-		VPObject vpo = new VPObject(variableCleared,potencyCleared);
+		variable = variable.replaceAll("[x]","");
+		potency = potency.replaceAll("['^']","");
+
+		VPObject vpo = new VPObject(variable,potency);
 		return vpo;
 	}
 	
